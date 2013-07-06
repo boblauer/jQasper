@@ -7,7 +7,6 @@ var jQueryIsLoaded = false;
 function checkForjQuery(casper) {
 	casper.on('load.finished', function() {
 		jQueryIsLoaded = casper.evaluate(function() {
-			__utils__.echo('checking for jquery');
 			return !!window.jQuery;
 		});
 	})
