@@ -1,0 +1,32 @@
+{
+  "name": "casper-jquery",
+  "description": "Casper-jQuery is a jQuery proxy for CasperJS. It lets you write jQuery-style DOM manipulations in CasperJS.",
+  "version": "1.0.0",
+  "keywords": [
+    "PhantomJS",
+    "CasperJS",
+    "jQuery"
+  ],
+  "maintainers": [
+    {
+      "name": "Bob Lauer",
+      "email": "rlauer@gmail.com",
+      "web": ""
+    }
+  ],
+  "bugs": {
+    "web": "https://github.com/boblauer/Casper-jQuery/issues"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/boblauer/Casper-jQuery.git"
+    }
+  ],
+  "licenses": [
+    {
+      "name": "MIT",
+      "url": ""
+    }
+  ]
+}
