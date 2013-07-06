@@ -5,7 +5,7 @@
 
 ##Usage
 
-'''javascript
+```javascript
 var casper = require('casper').create(),
 	$ = require('../libs/casper.jquery').create(casper),
 
