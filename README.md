@@ -12,7 +12,7 @@ npm install casper-jquery
 
 ```javascript
 var casper = require('casper').create(),
-	$ = require('casper.jquery').create(casper),
+	$ = require('casper-jquery').create(casper),
 
 	url = 'http://localhost:8000/index.html';
 
