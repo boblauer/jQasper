@@ -28,8 +28,6 @@ casper.then(function() {
 
 	casper.test.assert(clickable.is(':visible') === false, 'clickable element is now hidden');
 
-	clickable.click();
-
 	casper.test.assert($('body').children().length === 5, 'body children count test');
 });
 
