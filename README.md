@@ -1,18 +1,18 @@
-#Casper-jQuery
+#jQasper
 
-**Casper-jQuery** is a jQuery proxy for CasperJS.  It lets you write jQuery-style DOM manipulations in CasperJS.
+**jQasper** is a jQuery proxy for CasperJS.  It lets you write jQuery-style DOM manipulations in CasperJS.
 
 ##Installation
 
 ```
-npm install casper-jquery
+npm install jQasper
 ```
 
 ##Example Usage
 
 ```javascript
 var casper = require('casper').create(),
-	$ = require('casper-jquery').create(casper),
+	$ = require('jCasper').create(casper),
 
 	url = 'http://localhost:8000/index.html';
 
@@ -35,10 +35,10 @@ casper.run();
 ```
 
 ##What if jQuery isn't loaded?
-If you're opening a webpage from CasperJS that doesn't have jQuery loaded, you can have CasperJS load it for you by following [these instructions](http://casperjs.org/faq.html#faq-jquery).
+If you're opening a webpage from CasperJS that doesn't have jQuery loaded, you can have CasperJS load it for you by following [these instructions](http://docs.casperjs.org/en/latest/faq.html#can-i-use-jquery-with-casperjs).
 
 ##Limitations
-Because all of the jQuery-like code runs inside of [CasperJS's evaluate function](http://casperjs.org/api.html#casper.evaluate), it is running in a different context than the rest of the code.  This means that code like this:
+Because all of the jQuery-like code runs inside of [CasperJS's evaluate function](http://docs.casperjs.org/en/latest/modules/casper.html#evaluate), it is running in a different context than the rest of the code.  This means that code like this:
 ```javascript
 casper.then(function() {
 	function myButtonHandler() {
