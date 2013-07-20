@@ -9,22 +9,56 @@ function checkForjQuery(casper) {
 		jQueryIsLoaded = casper.evaluate(function() {
 			return !!window.jQuery;
 		});
-	})
-}
-
+	});
+};
 
 function initializeBrowserCasperHelpers(casper) {
 
 	casper.on('load.finished', function() {
-		
+
 		casper.evaluate(function() {
 
 			(function($) {
 
-				var proxyAttribute = 'data-proxy-id';
+				var proxyAttribute = 'data-proxy-id',
+						mouseEvents = 'click contextmenu dblclick mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup show'.split(' '),
+						focusEvents = 'blur focus'.split(' ');
 
 				if (typeof($) === 'undefined') {
 					$ = function() {};
+				}
+				else {
+					$.fn.trigger = (function(jQueryTrigger) {
+						return function(type, extraParams) {
+							this.each(function() {
+								dispatchEvent(this, type);
+							});
+
+							return jQueryTrigger.apply(this, arguments);
+						};
+
+					})($.fn.trigger);
+				}
+
+				function getEventInfo(type) {
+					var eventType = 'Event'
+
+					if (~(mouseEvents.indexOf(type))) {
+						eventType = 'MouseEvent';
+					}
+					else if (~(focusEvents.indexOf(type))) {
+						eventType = 'FocusEvent';
+					}
+
+					return eventType;
+				}
+
+				function dispatchEvent(element, type) {
+					var event = document.createEvent(getEventInfo(type));
+
+					event.initEvent(type, true, true);
+
+					element.dispatchEvent(event);
 				}
 
 				function getjQueryFunctions() {
@@ -41,8 +75,8 @@ function initializeBrowserCasperHelpers(casper) {
 				}
 
 				function getByIds(proxyIds) {
-					var selector = proxyIds.map(function(id) { 
-						return '[' + proxyAttribute + '="' + id + '"]'; 
+					var selector = proxyIds.map(function(id) {
+						return '[' + proxyAttribute + '="' + id + '"]';
 					}).join(',');
 
 					return $(selector);
@@ -78,7 +112,7 @@ function initializeBrowserCasperHelpers(casper) {
 function initializeProxyMethods(casper) {
 
 	casper.on('load.finished', function() {
-		
+
 		var jQueryFunctions = casper.evaluate(function() {
 			return CasperProxy.getjQueryFunctions();
 		});
@@ -105,7 +139,7 @@ function initializeProxyMethods(casper) {
 					}
 
 					return results;
-					
+
 				}, this.proxyIds, fnName, Array.prototype.slice.call(arguments));
 
 				return (results && results.isjQueryCollection) ? new ProxyElementCollection(results.elementIds) : results;
@@ -116,7 +150,8 @@ function initializeProxyMethods(casper) {
 
 function $() {
 	if (!jQueryIsLoaded) {
-		throw "The jQuery object must be loaded and present on the window object.";
+		$.casper.warn('The jQuery object must be loaded and present on the window object.');
+		$.casper.exit(1);
 	}
 
 	var args = Array.prototype.slice.call(arguments);
@@ -137,6 +172,6 @@ function create(casper) {
 	return $;
 };
 
-module.exports = { 
+module.exports = {
 	create: create
 };

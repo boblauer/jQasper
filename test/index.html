@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <title>jCasper Test Fixture</title>
+</head>
+<body>
+  <div id="click_test">Click Test</div>
+
+  <div id="hover_test">Hover Test</div>
+
+  <input id="focus_test" value="Not focused" />
+
+  <input id="change_test" />
+
+  <div id="dynamic_click_test"></div>
+
+  <div id="selector_test">
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <span></span>
+  </div>
+
+  <script type="text/javascript">
+    (function() {
+      "use strict";
+
+      var clickTest = document.getElementById('click_test'),
+          hoverTest = document.getElementById('hover_test'),
+          focusTest = document.getElementById('focus_test'),
+          changeTest = document.getElementById('change_test'),
+          clicked = 0,
+          hovered = 0,
+          changed = 0;
+
+      clickTest.addEventListener('click', function() {
+        clickTest.innerText = ++clicked;
+      }, false);
+
+      hoverTest.addEventListener('mouseover', function() {
+        hoverTest.innerText = ++hovered;
+      }, false);
+
+      focusTest.addEventListener('focus', function() {
+        focusTest.value = 'Focused';
+      }, false);
+
+      focusTest.addEventListener('blur', function() {
+        focusTest.value = 'Not focused';
+      }, false);
+
+      changeTest.addEventListener('change', function() {
+        changeTest.value += ++changed;
+      });
+
+    })();
+  </script>
+</body>
+</html>

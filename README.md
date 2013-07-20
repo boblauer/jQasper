@@ -39,6 +39,7 @@ If you're opening a webpage from CasperJS that doesn't have jQuery loaded, you c
 
 ##Limitations
 Because all of the jQuery-like code runs inside of [CasperJS's evaluate function](http://docs.casperjs.org/en/latest/modules/casper.html#evaluate), it is running in a different context than the rest of the code.  This means that code like this:
+
 ```javascript
 casper.then(function() {
 	function myButtonHandler() {
