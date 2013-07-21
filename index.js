@@ -41,24 +41,25 @@ function initializeBrowserCasperHelpers(casper) {
 				}
 
 				function getEventInfo(type) {
+					// Focus Events are handled differently in PhantomJS, at least as far as I can tell.
 					var eventType = 'Event'
 
 					if (~(mouseEvents.indexOf(type))) {
 						eventType = 'MouseEvent';
-					}
-					else if (~(focusEvents.indexOf(type))) {
-						eventType = 'FocusEvent';
 					}
 
 					return eventType;
 				}
 
 				function dispatchEvent(element, type) {
-					var event = document.createEvent(getEventInfo(type));
-
-					event.initEvent(type, true, true);
-
-					element.dispatchEvent(event);
+					if (type === 'focus' || type === 'blur') {
+						element[type]();
+					}
+					else {
+						var event = document.createEvent(getEventInfo(type));
+						event.initEvent(type, true, true);
+						element.dispatchEvent(event);
+					}
 				}
 
 				function getjQueryFunctions() {

@@ -13,7 +13,7 @@ casper.then(function() {
   var focusTest = $('#focus_test');
   var changeTest = $('#change_test');
 
-  casper.test.begin('testing', 2, function(test) {
+  casper.test.begin('testing', 4, function(test) {
 
     clickTest.click().click();
     test.assert(clickTest.text() === '2', 'Click event fired twice');
@@ -21,8 +21,7 @@ casper.then(function() {
     hoverTest.mouseover().mouseover();
     test.assert(hoverTest.text() === '2', 'Hover event fired twice');
 
-    focusTest.focus();
-    console.log(focusTest.val());
+    focusTest.focus().focus();
     test.assert(focusTest.val() === 'Focused', 'Focus test');
 
     focusTest.blur();
