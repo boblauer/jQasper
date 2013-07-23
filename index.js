@@ -84,18 +84,20 @@ function initializeBrowserCasperHelpers(casper) {
 				}
 
 				function getProxyIdsFromjQueryCollection(elements) {
-					return elements.toArray().map(function(el) {
+					return elements.toArray()
+						.filter(function(el) {
+							return el && el.getAttribute;
+						})
+						.map(function(el) {
+							if (!el.getAttribute(proxyAttribute)) {
+								el.setAttribute(proxyAttribute, ++jQasper.guid);
+							}
 
-						if (!el.getAttribute(proxyAttribute)) {
-							CasperProxy.guid++;
-							el.setAttribute(proxyAttribute, CasperProxy.guid);
-						}
-
-						return el.getAttribute(proxyAttribute);
-					});
+							return el.getAttribute(proxyAttribute);
+						});
 				}
 
-				window.CasperProxy = {
+				window.jQasper = {
 					guid: 1,
 					getjQueryFunctions: getjQueryFunctions,
 					getByIds: getByIds,
@@ -115,14 +117,14 @@ function initializeProxyMethods(casper) {
 	casper.on('load.finished', function() {
 
 		var jQueryFunctions = casper.evaluate(function() {
-			return CasperProxy.getjQueryFunctions();
+			return jQasper.getjQueryFunctions();
 		});
 
 		jQueryFunctions.forEach(function(fnName) {
 			ProxyElementCollection.prototype[fnName] = function() {
 
 				var results = casper.evaluate(function(proxyIds, fnName, args) {
-					var jQueryCollection = CasperProxy.getByIds(proxyIds);
+					var jQueryCollection = jQasper.getByIds(proxyIds);
 					var results = null;
 
 					if (args.length) {
@@ -135,7 +137,7 @@ function initializeProxyMethods(casper) {
 					if (results instanceof jQuery) {
 						results = {
 							isjQueryCollection: true,
-							elementIds: CasperProxy.getProxyIdsFromjQueryCollection(results)
+							elementIds: jQasper.getProxyIdsFromjQueryCollection(results)
 						};
 					}
 
@@ -158,7 +160,7 @@ function $() {
 	var args = Array.prototype.slice.call(arguments);
 
 	args.unshift(function() {
-		return CasperProxy.getProxyIdsFromjQueryCollection(jQuery.apply(jQuery, arguments));
+		return jQasper.getProxyIdsFromjQueryCollection(jQuery.apply(jQuery, arguments));
 	});
 
 	return new ProxyElementCollection($.casper.evaluate.apply(casper, args));
