@@ -5,7 +5,7 @@
 ##Installation
 
 ```
-npm install jQasper
+npm install jqasper
 ```
 
 ##Example Usage
