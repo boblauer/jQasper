@@ -12,7 +12,7 @@ npm install jqasper
 
 ```javascript
 var casper = require('casper').create(),
-	$ = require('jCasper').create(casper),
+	$ = require('jQasper').create(casper),
 
 	url = 'http://localhost:8000/index.html';
 
