@@ -1,4 +1,4 @@
-#jQasper
+#jQasper - dummy
 
 **jQasper** is a jQuery proxy for CasperJS.  It lets you write jQuery-style DOM manipulations in CasperJS.
 
